@@ -1,3 +1,12 @@
+## [2.0.4](github.com/axelxi/study_2025-2026_os2/compare/2.0.3...2.0.4) (2025-09-27)
+
+
+### Features
+
+* **main:** add lab-04 files ([3c99028](github.com/axelxi/study_2025-2026_os2/commits/3c9902859af991c6f02f86fb2ccb4d1209a0f6e0))
+
+
+
 ## [2.0.3](github.com/axelxi/study_2025-2026_os2/compare/2.0.2...2.0.3) (2025-09-20)
 
 
