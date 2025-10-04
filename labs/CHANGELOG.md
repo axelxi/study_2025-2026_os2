@@ -1,3 +1,13 @@
+## [2.0.5](github.com/axelxi/study_2025-2026_os2/compare/2.0.4...2.0.5) (2025-10-04)
+
+
+### Features
+
+* **main:** add lab-05 files ([e52234e](github.com/axelxi/study_2025-2026_os2/commits/e52234e6e7dd972e15eccd1668d687f01bef47f4))
+* **main:** fix files ([cff3855](github.com/axelxi/study_2025-2026_os2/commits/cff38557ac5fda051d364f1a05d51c013b35b39a))
+
+
+
 ## [2.0.4](github.com/axelxi/study_2025-2026_os2/compare/2.0.3...2.0.4) (2025-09-27)
 
 
