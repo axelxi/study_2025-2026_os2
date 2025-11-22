@@ -1,3 +1,12 @@
+## [2.1.2](github.com/axelxi/study_2025-2026_os2/compare/2.1.1...2.1.2) (2025-11-22)
+
+
+### Features
+
+* **main:** add lab-12 files ([bd75b4b](github.com/axelxi/study_2025-2026_os2/commits/bd75b4bf0336b0f86f515a682f8b9b14ebacf423))
+
+
+
 # [2.1.0](github.com/axelxi/study_2025-2026_os2/compare/2.0.5...2.1.0) (2025-11-08)
 
 

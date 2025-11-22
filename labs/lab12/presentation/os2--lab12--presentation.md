@@ -1,14 +1,14 @@
 ---
 ## Front matter
 lang: ru-RU
-title: Лабораторная работа №1
-subtitle: Установка и конфигурация операционной системы на виртуальную машину
+title: Лабораторная работа №12
+subtitle: Настройки сети в Linux
 author:
   - Акунаева Антонина Эрдниевна
 institute:
   - Российский университет дружбы народов, Москва, Россия
   
-date: 2025-09-06
+date: 2025-11-22
 
 ## i18n babel
 babel-lang: russian
@@ -48,139 +48,113 @@ header-includes:
 
 # Цели и задачи
 
-- Целью данной работы является приобретение практических навыков установки операционной системы на виртуальную машину, настройки минимально необходимых для дальнейшей работы сервисов.
-- Выполнить домашнюю работу после выполнения лабораторной работы.
+- Получить навыки настройки сетевых параметров системы.
+
+- Продемонстрируйте навыки использования утилиты ip (см. раздел 12.4.1).
+- Продемонстрируйте навыки использования утилиты nmcli (см. раздел 12.4.2 и 12.4.3).
 
 # Материалы и методы
 
 - Linux (дистрибутив Rocky 9.6)
-- Linux Fedora Workstation (Markdown)
+- Linux Fedora Sway (Markdown)
 - Oracle VirtualBox
 
 # Выполнение лабораторной работы
 
-## Создание ОС Rocky Linux
-
-![](image/1.PNG){#fig:001 width=70%}
-
-## Виртуальное оборудование Rocky Linux
-
-![](image/2.PNG){#fig:002 width=70%}
-
-## Виртуальный жёсткий диск Rocky Linux
-
-![](image/3.PNG){#fig:003 width=70%}
-
-## Окно установки Rocky Linux
-
-![](image/4.PNG){#fig:004 width=70%}
-
-## Окно установки Rocky Linux
-
-![](image/5.PNG){#fig:005 width=70%}
-
-## Настройка Rocky Linux: оборудование
-
-![](image/6.PNG){#fig:006 width=70%}
-
-## Настройка Rocky Linux: раскладка клавиатуры
-
-![](image/7.PNG){#fig:007 width=70%}
-
-## Настройка Rocky Linux: поддержка языков
-
-![](image/8.PNG){#fig:008 width=70%}
-
-## Настройка Rocky Linux: KDUMP
-
-![](image/9.PNG){#fig:009 width=70%}
-
-## Настройка Rocky Linux: настройка сети
-
-![](image/10.PNG){#fig:010 width=70%}
-
-## Настройка Rocky Linux: добавление пароля root
-
-![](image/11.PNG){#fig:011 width=70%}
-
-## Настройка Rocky Linux: добавление администратора
-
-![](image/12.PNG){#fig:012 width=70%}
-
-## Завершение настройки Rocky Linux
-
-![](image/13.PNG){#fig:013 width=70%}
-
-## Завершение установки Rocky Linux
-
-![](image/14.PNG){#fig:014 width=70%}
-
-## Подключение образа диска дополнений гостевой ОС
-
-![](image/15.PNG){#fig:015 width=70%}
-
-
-# Выполнение домашней работы
-
-## Использование команды dmesg | less
+## Проверка конфигурации сети: Список сетевых подключений ip link
 
 ```
-dmesg | less
+ip -s link
 ```
 
-![](image/16.PNG){#fig:016 width=70%}
+![](image/1.PNG){#fig:001 width=65%}
 
-## Нахождение версии ядра Linux при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "version"
-```
-
-![](image/17.PNG){#fig:017 width=70%}
-
-## Нахождение частоты процессора при помощи dmesg | grep -i
+## Список текущих маршрутов ip route
 
 ```
-dmesg | grep -i "processor"
+ip route show
 ```
 
-![](image/18.PNG){#fig:018 width=70%}
+![](image/2.PNG){#fig:002 width=65%}
 
-## Нахождение модели процессора при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "CPU0"
-```
-
-![](image/19.PNG){#fig:019 width=70%}
-
-## Нахождение доступной оперативной памяти при помощи dmesg | grep -i
+## Список текущих назначений адресов ip addr
 
 ```
-dmesg | grep -i "memory"
+ip addr show
 ```
 
-![](image/20.PNG){#fig:020 width=70%}
+![](image/3.PNG){#fig:003 width=65%}
 
-## Нахождение типа обнаруженного гипервизора при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "hypervisor"
-```
-
-![](image/21.PNG){#fig:021 width=70%}
-
-## Нахождение информации о файловых системах при помощи dmesg | grep -i
+## Проверка действия и добавление адреса к интерфейсу
 
 ```
-dmesg | grep -i "filesystem"
+ping -c 4 8.8.8.8
+ip addr add 10.0.0.10/24 dev enp0s3
+ip addr show
 ```
 
-![](image/22.PNG){#fig:022 width=70%}
+![](image/4.PNG){#fig:004 width=65%}
+
+## Порты ifconfig и UDP, TCP
+
+```
+ifconfig
+ss -tul
+```
+
+![](image/5.PNG){#fig:005 width=65%}
+
+## Управление сетевыми подключениями с помощью nmcl
+
+```
+nmcli connection show
+nmcli connection add con-name "dhcp" type ethernet ifname enp0s3
+nmcli connection add con-name "static" ifname <ifname> autoconnect no type ethernet ip4 10.0.0.10/24 gw4 10.0.0.1 ifname enp0s3
+nmcli connection up "static"
+```
+
+![](image/6.PNG){#fig:006 width=60%}
+
+## Переключения на новые соединения
+
+```
+nmcli connection up "dhcp"
+```
+
+![](image/7.PNG){#fig:007 width=65%}
+
+## Проверка переключения ip addr и nmcli con show
+
+```
+nmcli connection show
+ip addr
+```
+
+![](image/8.PNG){#fig:008 width=65%}
+
+## Добавление и изменение DNS-серверов
+
+![](image/9.PNG){#fig:009 width=65%}
+
+## Проверка переподключения и nmtui. nmcli
+
+![](image/10.PNG){#fig:010 width=65%}
+
+## Настройки сети на устройстве nmtui
+
+```
+nmtui
+```
+
+![](image/11.PNG){#fig:011 width=65%}
+
+## Настройки сети в граф. интерфейсе системы
+
+![](image/12.PNG){#fig:012 width=65%}
 
 
 # Выводы
 
-Я приобрела практические навыки установки операционной системы на виртуальную машину и настройки минимально необходимых для дальнейшей работы сервисов.
+Я получила навыки настройки сетевых параметров системы.
 
 
