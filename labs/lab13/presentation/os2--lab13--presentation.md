@@ -1,14 +1,14 @@
 ---
 ## Front matter
 lang: ru-RU
-title: Лабораторная работа №1
-subtitle: Установка и конфигурация операционной системы на виртуальную машину
+title: Лабораторная работа №13
+subtitle: Фильтр пакетов
 author:
   - Акунаева Антонина Эрдниевна
 institute:
   - Российский университет дружбы народов, Москва, Россия
   
-date: 2025-09-06
+date: 2025-11-29
 
 ## i18n babel
 babel-lang: russian
@@ -48,139 +48,125 @@ header-includes:
 
 # Цели и задачи
 
-- Целью данной работы является приобретение практических навыков установки операционной системы на виртуальную машину, настройки минимально необходимых для дальнейшей работы сервисов.
-- Выполнить домашнюю работу после выполнения лабораторной работы.
+- Получить навыки настройки пакетного фильтра в Linux.  
+
+1. Используя firewall-cmd:  
+– определить текущую зону по умолчанию;  
+– определить доступные для настройки зоны;  
+– определить службы, включённые в текущую зону;  
+– добавить сервер VNC в конфигурацию брандмауэра.  
+2. Используя firewall-config:  
+– добавьте службы http и ssh в зону public;  
+– добавьте порт 2022 протокола UDP в зону public;  
+– добавьте службу ftp.  
+3. Выполните задание для самостоятельной работы (раздел 13.5).
 
 # Материалы и методы
 
 - Linux (дистрибутив Rocky 9.6)
-- Linux Fedora Workstation (Markdown)
+- Linux Fedora Sway (Markdown)
 - Oracle VirtualBox
 
 # Выполнение лабораторной работы
 
-## Создание ОС Rocky Linux
+## Управление брандмауэром с помощью firewall-cmd
 
-![](image/1.PNG){#fig:001 width=70%}
+```
+firewall-cmd --get-default-zone
+firewall-cmd --get-zone
+firewall-cmd --get-services
+firewall-cmd --list-services
+```
 
-## Виртуальное оборудование Rocky Linux
+![](image/1.PNG){#fig:001 width=60%}
 
-![](image/2.PNG){#fig:002 width=70%}
+## Вывод информании в конфигурации и добавление служб в firewalld
 
-## Виртуальный жёсткий диск Rocky Linux
+```
+firewall-cmd --list-all
+firewall-cmd --list-all --zone=public
 
-![](image/3.PNG){#fig:003 width=70%}
+firewall-cmd --add-service=vnc-server
+```
 
-## Окно установки Rocky Linux
+![](image/2.PNG){#fig:002 width=60%}
 
-![](image/4.PNG){#fig:004 width=70%}
+## Добавление и проверка службы в конфигурации
 
-## Окно установки Rocky Linux
+```
+firewall-cmd --add-service=vnc-server --permanent
+```
 
-![](image/5.PNG){#fig:005 width=70%}
+![](image/3.PNG){#fig:003 width=65%}
 
-## Настройка Rocky Linux: оборудование
+## Проверка наличия постоянной службы vnc-server
 
-![](image/6.PNG){#fig:006 width=70%}
+```
+firewall-cmd --reload
+firewall-cmd --list-all
+```
 
-## Настройка Rocky Linux: раскладка клавиатуры
+![](image/4.PNG){#fig:004 width=65%}
+
+## Добавление порта в конфигурацию
+
+```
+firewall-cmd --add-port=2022/tcp --permanent
+```
+
+![](image/5.PNG){#fig:005 width=65%}
+
+## Управление брандмауэром с помощью firewall-config
+
+```
+firewall-config
+```
+
+![](image/6.PNG){#fig:006 width=65%}
+
+## Добавление служб в firewall-config
 
 ![](image/7.PNG){#fig:007 width=70%}
 
-## Настройка Rocky Linux: поддержка языков
+## Выбор настройки конфигурации в firewall-config
 
 ![](image/8.PNG){#fig:008 width=70%}
 
-## Настройка Rocky Linux: KDUMP
+## Добавление порта в firewall-config
 
 ![](image/9.PNG){#fig:009 width=70%}
 
-## Настройка Rocky Linux: настройка сети
+## Проверка изменений в интерфейсе firewall-config
 
 ![](image/10.PNG){#fig:010 width=70%}
 
-## Настройка Rocky Linux: добавление пароля root
-
-![](image/11.PNG){#fig:011 width=70%}
-
-## Настройка Rocky Linux: добавление администратора
-
-![](image/12.PNG){#fig:012 width=70%}
-
-## Завершение настройки Rocky Linux
-
-![](image/13.PNG){#fig:013 width=70%}
-
-## Завершение установки Rocky Linux
-
-![](image/14.PNG){#fig:014 width=70%}
-
-## Подключение образа диска дополнений гостевой ОС
-
-![](image/15.PNG){#fig:015 width=70%}
-
-
-# Выполнение домашней работы
-
-## Использование команды dmesg | less
+## Самостоятельная работа
 
 ```
-dmesg | less
+firewall-cmd --add-service=telnet --permanent
 ```
 
-![](image/16.PNG){#fig:016 width=70%}
+![](image/11.PNG){#fig:011 width=65%}
 
-## Нахождение версии ядра Linux при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "version"
-```
-
-![](image/17.PNG){#fig:017 width=70%}
-
-## Нахождение частоты процессора при помощи dmesg | grep -i
+## Самостоятельная работа
 
 ```
-dmesg | grep -i "processor"
+firewall-config
 ```
 
-![](image/18.PNG){#fig:018 width=70%}
+![](image/12.PNG){#fig:012 width=65%}
 
-## Нахождение модели процессора при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "CPU0"
-```
-
-![](image/19.PNG){#fig:019 width=70%}
-
-## Нахождение доступной оперативной памяти при помощи dmesg | grep -i
+## Самостоятельная работа
 
 ```
-dmesg | grep -i "memory"
+firewall-cmd --reload
+firewall-cmd --list-all
 ```
 
-![](image/20.PNG){#fig:020 width=70%}
-
-## Нахождение типа обнаруженного гипервизора при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "hypervisor"
-```
-
-![](image/21.PNG){#fig:021 width=70%}
-
-## Нахождение информации о файловых системах при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "filesystem"
-```
-
-![](image/22.PNG){#fig:022 width=70%}
-
+![](image/13.PNG){#fig:013 width=65%}
 
 # Выводы
 
-Я приобрела практические навыки установки операционной системы на виртуальную машину и настройки минимально необходимых для дальнейшей работы сервисов.
+Я получила навыки настройки пакетного фильтра в Linux.
 
 
