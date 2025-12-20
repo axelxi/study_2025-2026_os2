@@ -1,14 +1,14 @@
 ---
 ## Front matter
 lang: ru-RU
-title: Лабораторная работа №1
-subtitle: Установка и конфигурация операционной системы на виртуальную машину
+title: Лабораторная работа №8
+subtitle: Планировщики событий
 author:
   - Акунаева Антонина Эрдниевна
 institute:
   - Российский университет дружбы народов, Москва, Россия
   
-date: 2025-09-06
+date: 2025-12-20
 
 ## i18n babel
 babel-lang: russian
@@ -48,139 +48,79 @@ header-includes:
 
 # Цели и задачи
 
-- Целью данной работы является приобретение практических навыков установки операционной системы на виртуальную машину, настройки минимально необходимых для дальнейшей работы сервисов.
-- Выполнить домашнюю работу после выполнения лабораторной работы.
+- Получение навыков работы с планировщиками событий cron и at.
+
+1. Выполните задания по планированию задач с помощью crond (см. раздел 8.4.1).
+2. Выполните задания по планированию задач с помощью atd (см. раздел 8.4.2).
 
 # Материалы и методы
 
 - Linux (дистрибутив Rocky 9.6)
-- Linux Fedora Workstation (Markdown)
+- Linux Fedora Sway (Markdown)
 - Oracle VirtualBox
 
 # Выполнение лабораторной работы
 
-## Создание ОС Rocky Linux
-
-![](image/1.PNG){#fig:001 width=70%}
-
-## Виртуальное оборудование Rocky Linux
-
-![](image/2.PNG){#fig:002 width=70%}
-
-## Виртуальный жёсткий диск Rocky Linux
-
-![](image/3.PNG){#fig:003 width=70%}
-
-## Окно установки Rocky Linux
-
-![](image/4.PNG){#fig:004 width=70%}
-
-## Окно установки Rocky Linux
-
-![](image/5.PNG){#fig:005 width=70%}
-
-## Настройка Rocky Linux: оборудование
-
-![](image/6.PNG){#fig:006 width=70%}
-
-## Настройка Rocky Linux: раскладка клавиатуры
-
-![](image/7.PNG){#fig:007 width=70%}
-
-## Настройка Rocky Linux: поддержка языков
-
-![](image/8.PNG){#fig:008 width=70%}
-
-## Настройка Rocky Linux: KDUMP
-
-![](image/9.PNG){#fig:009 width=70%}
-
-## Настройка Rocky Linux: настройка сети
-
-![](image/10.PNG){#fig:010 width=70%}
-
-## Настройка Rocky Linux: добавление пароля root
-
-![](image/11.PNG){#fig:011 width=70%}
-
-## Настройка Rocky Linux: добавление администратора
-
-![](image/12.PNG){#fig:012 width=70%}
-
-## Завершение настройки Rocky Linux
-
-![](image/13.PNG){#fig:013 width=70%}
-
-## Завершение установки Rocky Linux
-
-![](image/14.PNG){#fig:014 width=70%}
-
-## Подключение образа диска дополнений гостевой ОС
-
-![](image/15.PNG){#fig:015 width=70%}
-
-
-# Выполнение домашней работы
-
-## Использование команды dmesg | less
+## 8.4.1. Планирование задач с помощью cron
 
 ```
-dmesg | less
+su - 
+systemctl status crond -l
+cat /etc/crontab
 ```
 
-![](image/16.PNG){#fig:016 width=70%}
+![](image/1.PNG){#fig:001 width=60%}
 
-## Нахождение версии ядра Linux при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "version"
-```
-
-![](image/17.PNG){#fig:017 width=70%}
-
-## Нахождение частоты процессора при помощи dmesg | grep -i
+## Отображение и изменение расписания в cron
 
 ```
-dmesg | grep -i "processor"
+crontab -l
+crontab -e
+
+*/1 * * * * logger This message is written from root cron
 ```
 
-![](image/18.PNG){#fig:018 width=70%}
+![](image/2.PNG){#fig:002 width=60%}
 
-## Нахождение модели процессора при помощи dmesg | grep -i
+## Внесение изменений в cron
 
-```
-dmesg | grep -i "CPU0"
-```
+![](image/3.PNG){#fig:003 width=65%}
 
-![](image/19.PNG){#fig:019 width=70%}
+## Внесение задач в расписание cron
 
-## Нахождение доступной оперативной памяти при помощи dmesg | grep -i
+![](image/4.PNG){#fig:004 width=65%}
 
-```
-dmesg | grep -i "memory"
-```
-
-![](image/20.PNG){#fig:020 width=70%}
-
-## Нахождение типа обнаруженного гипервизора при помощи dmesg | grep -i
+## Внесение новой записи в cron
 
 ```
-dmesg | grep -i "hypervisor"
+0 */1 * * 1-5 logger This message is written from root cron
 ```
 
-![](image/21.PNG){#fig:021 width=70%}
+![](image/5.PNG){#fig:005 width=65%}
 
-## Нахождение информации о файловых системах при помощи dmesg | grep -i
+## Изменение файла сценария /etc/cron.hourly/eachhour
 
 ```
-dmesg | grep -i "filesystem"
+#!/bin/sh
+logger This message is written at $(date)
 ```
 
-![](image/22.PNG){#fig:022 width=70%}
+![](image/6.PNG){#fig:006 width=65%}
 
+## Изменение /etc/crond.d/eachhour
+
+```
+11 * * * * root logger This message is written from /etc/cron.d
+```
+
+![](image/7.PNG){#fig:007 width=65%}
+
+## 8.4.2. Планирование заданий с помощью at
+
+![](image/8.PNG){#fig:008 width=60%}
 
 # Выводы
 
-Я приобрела практические навыки установки операционной системы на виртуальную машину и настройки минимально необходимых для дальнейшей работы сервисов.
+Я получила навыки работы с планировщиками событий cron и at.
 
 
