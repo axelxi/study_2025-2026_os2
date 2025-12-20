@@ -61,65 +61,63 @@ header-includes:
 
 # Выполнение лабораторной работы
 
-## 
+## 8.4.1. Планирование задач с помощью cron
 
-![](image/1.PNG){#fig:001 width=70%}
+```
+su - 
+systemctl status crond -l
+cat /etc/crontab
+```
 
-## 
+![](image/1.PNG){#fig:001 width=60%}
 
-![](image/2.PNG){#fig:002 width=70%}
+## Отображение и изменение расписания в cron
 
-## 
+```
+crontab -l
+crontab -e
 
-![](image/3.PNG){#fig:003 width=70%}
+*/1 * * * * logger This message is written from root cron
+```
 
-## 
+![](image/2.PNG){#fig:002 width=60%}
 
-![](image/4.PNG){#fig:004 width=70%}
+## Внесение изменений в cron
 
-## 
+![](image/3.PNG){#fig:003 width=65%}
 
-![](image/5.PNG){#fig:005 width=70%}
+## Внесение задач в расписание cron
 
-## 
+![](image/4.PNG){#fig:004 width=65%}
 
-![](image/6.PNG){#fig:006 width=70%}
+## Внесение новой записи в cron
 
-## 
+```
+0 */1 * * 1-5 logger This message is written from root cron
+```
 
-![](image/7.PNG){#fig:007 width=70%}
+![](image/5.PNG){#fig:005 width=65%}
 
-## 
+## Изменение файла сценария /etc/cron.hourly/eachhour
 
-![](image/8.PNG){#fig:008 width=70%}
+```
+#!/bin/sh
+logger This message is written at $(date)
+```
 
-## 
+![](image/6.PNG){#fig:006 width=65%}
 
-![](image/9.PNG){#fig:009 width=70%}
+## Изменение /etc/crond.d/eachhour
 
-## 
+```
+11 * * * * root logger This message is written from /etc/cron.d
+```
 
-![](image/10.PNG){#fig:010 width=70%}
+![](image/7.PNG){#fig:007 width=65%}
 
-## 
+## 8.4.2. Планирование заданий с помощью at
 
-![](image/11.PNG){#fig:011 width=70%}
-
-## 
-
-![](image/12.PNG){#fig:012 width=70%}
-
-## 
-
-![](image/13.PNG){#fig:013 width=70%}
-
-## 
-
-![](image/14.PNG){#fig:014 width=70%}
-
-## 
-
-![](image/15.PNG){#fig:015 width=70%}
+![](image/8.PNG){#fig:008 width=60%}
 
 # Выводы
 
