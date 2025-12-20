@@ -1,3 +1,13 @@
+## [2.0.8](github.com/axelxi/study_2025-2026_os2/compare/2.0.7...2.0.8) (2025-12-20)
+
+
+### Features
+
+* **main:** add lab-08 files ([e77421b](github.com/axelxi/study_2025-2026_os2/commits/e77421bd796282de1f7fd1d61d7b142d3d19b65c))
+* **main:** fix lab-07 presentation ([f31650b](github.com/axelxi/study_2025-2026_os2/commits/f31650bb28b7f2cc6a4749a065ff194cf19ab72b))
+
+
+
 ## [2.0.7](github.com/axelxi/study_2025-2026_os2/compare/2.1.3...2.0.7) (2025-12-20)
 
 
