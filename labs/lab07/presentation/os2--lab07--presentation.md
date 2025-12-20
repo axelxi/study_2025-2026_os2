@@ -1,14 +1,14 @@
 ---
 ## Front matter
 lang: ru-RU
-title: Лабораторная работа №1
+title: Лабораторная работа №7
 subtitle: Установка и конфигурация операционной системы на виртуальную машину
 author:
   - Акунаева Антонина Эрдниевна
 institute:
   - Российский университет дружбы народов, Москва, Россия
   
-date: 2025-09-06
+date: 2025-12-20
 
 ## i18n babel
 babel-lang: russian
@@ -48,139 +48,132 @@ header-includes:
 
 # Цели и задачи
 
-- Целью данной работы является приобретение практических навыков установки операционной системы на виртуальную машину, настройки минимально необходимых для дальнейшей работы сервисов.
-- Выполнить домашнюю работу после выполнения лабораторной работы.
+Получить навыки работы с журналами мониторинга различных событий в системе.
+
+1. Продемонстрируйте навыки работы с журналом мониторинга событий в реальном времени (см. раздел 7.4.1).
+2. Продемонстрируйте навыки создания и настройки отдельного файла конфигурации мониторинга отслеживания событий веб-службы (см. раздел 7.4.2).
+3. Продемонстрируйте навыки работы с journalctl (см. раздел 7.4.3).
+4. Продемонстрируйте навыки работы с journald (см. раздел 7.4.4).
 
 # Материалы и методы
 
 - Linux (дистрибутив Rocky 9.6)
-- Linux Fedora Workstation (Markdown)
+- Linux Fedora Sway (Markdown)
 - Oracle VirtualBox
 
 # Выполнение лабораторной работы
 
-## Создание ОС Rocky Linux
+## 7.4.1. Мониторинг журнала системных событий в реальном времени
 
-![](image/1.PNG){#fig:001 width=70%}
+```
+logger hello
+```
 
-## Виртуальное оборудование Rocky Linux
+![](image/1.PNG){#fig:001 width=65%}
 
-![](image/2.PNG){#fig:002 width=70%}
+## Журнал системных событий
 
-## Виртуальный жёсткий диск Rocky Linux
+```
+tail -f /var/log/messages
+```
 
-![](image/3.PNG){#fig:003 width=70%}
+![](image/2.PNG){#fig:002 width=65%}
 
-## Окно установки Rocky Linux
+## Журнал мониторинга сообщений безопасности
 
-![](image/4.PNG){#fig:004 width=70%}
+```
+tail -n 20 /var/log/secure
+```
 
-## Окно установки Rocky Linux
+![](image/3.PNG){#fig:003 width=65%}
+
+## 7.4.2. Изменение правил rsyslog.conf
+
+```
+dnf -y install httpd
+systemctl start httpd
+systemctl enable httpd
+```
+
+![](image/4.PNG){#fig:004 width=60%}
+
+## Журнал сообщений об ошибках веб-службы
+
+```
+tail -f /var/log/httpd/error_log
+```
 
 ![](image/5.PNG){#fig:005 width=70%}
 
-## Настройка Rocky Linux: оборудование
-
-![](image/6.PNG){#fig:006 width=70%}
-
-## Настройка Rocky Linux: раскладка клавиатуры
-
-![](image/7.PNG){#fig:007 width=70%}
-
-## Настройка Rocky Linux: поддержка языков
-
-![](image/8.PNG){#fig:008 width=70%}
-
-## Настройка Rocky Linux: KDUMP
-
-![](image/9.PNG){#fig:009 width=70%}
-
-## Настройка Rocky Linux: настройка сети
-
-![](image/10.PNG){#fig:010 width=70%}
-
-## Настройка Rocky Linux: добавление пароля root
-
-![](image/11.PNG){#fig:011 width=70%}
-
-## Настройка Rocky Linux: добавление администратора
-
-![](image/12.PNG){#fig:012 width=70%}
-
-## Завершение настройки Rocky Linux
-
-![](image/13.PNG){#fig:013 width=70%}
-
-## Завершение установки Rocky Linux
-
-![](image/14.PNG){#fig:014 width=70%}
-
-## Подключение образа диска дополнений гостевой ОС
-
-![](image/15.PNG){#fig:015 width=70%}
-
-
-# Выполнение домашней работы
-
-## Использование команды dmesg | less
+## Файл /etc/httpd/conf/httpd.conf
 
 ```
-dmesg | less
+nano /etc/httpd/conf/httpd.conf
+ErrorLog syslog:local1
 ```
 
-![](image/16.PNG){#fig:016 width=70%}
+![](image/6.PNG){#fig:006 width=65%}
 
-## Нахождение версии ядра Linux при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "version"
-```
-
-![](image/17.PNG){#fig:017 width=70%}
-
-## Нахождение частоты процессора при помощи dmesg | grep -i
+## Создание файлов мониторинга и их редактирование
 
 ```
-dmesg | grep -i "processor"
+cd /etc/rsyslog.d
+touch httpd.conf
+cd /etc/rsyslog.d
+touch debug.conf
+echo "*.debug /var/log/messages-debug" > /etc/rsyslog.d/debug.conf
+logger -p daemon.debug "Daemon Debug Message"
 ```
 
-![](image/18.PNG){#fig:018 width=70%}
+![](image/7.PNG){#fig:007 width=55%}
 
-## Нахождение модели процессора при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "CPU0"
-```
-
-![](image/19.PNG){#fig:019 width=70%}
-
-## Нахождение доступной оперативной памяти при помощи dmesg | grep -i
+## Файл httpd.conf
 
 ```
-dmesg | grep -i "memory"
+local1.* -/var/log/httpd-error.log
 ```
 
-![](image/20.PNG){#fig:020 width=70%}
+![](image/8.PNG){#fig:008 width=65%}
 
-## Нахождение типа обнаруженного гипервизора при помощи dmesg | grep -i
-
-```
-dmesg | grep -i "hypervisor"
-```
-
-![](image/21.PNG){#fig:021 width=70%}
-
-## Нахождение информации о файловых системах при помощи dmesg | grep -i
+## Перезагрузка веб-службы и конфигурации rsyslogd
 
 ```
-dmesg | grep -i "filesystem"
+systemctl restart rsyslog.service
+systemctl restart httpd
 ```
 
-![](image/22.PNG){#fig:022 width=70%}
+![](image/9.PNG){#fig:009 width=60%}
 
+## Журнал мониторинга отладочной информации
+
+![](image/10.PNG){#fig:010 width=65%}
+
+## 7.4.3. Использование journalctl
+
+```
+journalctl
+```
+
+![](image/11.PNG){#fig:011 width=65%}
+
+## Журнал событий journald
+
+![](image/12.PNG){#fig:012 width=65%}
+
+## Журнал событий journald
+
+![](image/13.PNG){#fig:013 width=65%}
+
+## Журнал событий journald
+
+![](image/14.PNG){#fig:014 width=65%}
+
+## 7.4.4. Постоянный журнал journald
+
+![](image/15.PNG){#fig:015 width=65%}
 
 # Выводы
 
-Я приобрела практические навыки установки операционной системы на виртуальную машину и настройки минимально необходимых для дальнейшей работы сервисов.
+Я получила навыки работы с журналами мониторинга различных событий в системе.
 
 
